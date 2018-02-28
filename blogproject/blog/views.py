@@ -3,6 +3,14 @@ from django.shortcuts import render
 # Create your views here.
 
 from django.http import HttpResponse
+from django.shortcuts import render
 
 def index(request):
-    return HttpResponse("Welcome to Metabolomics database")
+    return render(request, 'blog/index.html', context={'title':'my database','welcome':'metabolomics database'})
+    '''
+    我们首先把 HTTP 请求传了进去，
+    然后 render 根据第二个参数的值 blog/index.html 找到这个模板文件并读取模板中的内容。
+    之后 render 根据我们传入的 context 参数的值把模板中的变量替换为我们传递的变量的值，
+    {{ title }} 被替换成了 context 字典中 title 对应的值，
+    同理 {{ welcome }} 也被替换成相应的值。
+    '''
