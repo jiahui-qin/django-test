@@ -10,4 +10,4 @@ class meta(models.Model):
     mz = models.FloatField()
     rt = models.FloatField()
     user = models.ForeignKey(User)
-    updatetime = models.DateTimeField
+    updatetime = models.DateTimeField()
