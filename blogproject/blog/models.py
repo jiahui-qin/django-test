@@ -9,5 +9,5 @@ class meta(models.Model):
     metabolomics = models.CharField(max_length = 200)
     mz = models.FloatField()
     rt = models.FloatField()
-    user = models.ForeignKey(User)
+    provider = models.ForeignKey(User)
     updatetime = models.DateTimeField()
