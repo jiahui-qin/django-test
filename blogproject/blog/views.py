@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import render
 from .models import meta
+from django.db.models import Q
 def index(request):
     #return render(request, 'blog/index.html', context={'title':'my database','welcome':'metabolomics database'})
     meta_list = meta.objects.all().order_by('-updatetime')
@@ -16,3 +17,13 @@ def index(request):
     {{ title }} 被替换成了 context 字典中 title 对应的值，
     同理 {{ welcome }} 也被替换成相应的值。
     '''
+
+
+def search(request):
+    q = request.GT.get('q')
+    error_msg = ''
+    if not q:
+        error_msg = "please input keyword"
+        return render(request, 'blog/index.html', {'error_msg':error_msg})
+    meta_list = meta.objects.filter(Q(metabolomics_icontains = q))
+    return render(request, 'blog/index.html',{'error_msg':error_msg,'meta_list':meta_list})
