@@ -1,16 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ title }}</title>
-</head>
-<body>
-<h1>{{ welcome }}</h1>
+{% extends 'base.html' %}
 
+{%block main %}
 
-
-
-
+  {% if error_msg %}
+  <p> {{error_msg}}</p>
+  {% endif %}
 
 <div class="results">
     <table id="result_list">
@@ -76,9 +70,4 @@
     </tbody>
     </table>
     </div>
-
-
-
-
-</body>
-</html>
+{% endblock main %}
