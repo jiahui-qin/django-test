@@ -20,10 +20,11 @@ def index(request):
 
 
 def search(request):
-    q = request.GT.get('q')
+    q = request.GET.get('q')
     error_msg = ''
     if not q:
         error_msg = "please input keyword"
         return render(request, 'blog/index.html', {'error_msg':error_msg})
-    meta_list = meta.objects.filter(Q(metabolomics_icontains = q))
+
+    meta_list = meta.objects.filter(Q(metabolomics__icontains = q))
     return render(request, 'blog/index.html',{'error_msg':error_msg,'meta_list':meta_list})
