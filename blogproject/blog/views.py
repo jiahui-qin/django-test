@@ -1,11 +1,14 @@
 from django.shortcuts import render
-
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 from django.http import HttpResponse
 from django.shortcuts import render
 from .models import meta
 from django.db.models import Q
+
+@login_required(login_url='/accounts/login/')
 def index(request):
     #return render(request, 'blog/index.html', context={'title':'my database','welcome':'metabolomics database'})
     meta_list = meta.objects.all().order_by('-updatetime')
@@ -28,3 +31,23 @@ def search(request):
 
     meta_list = meta.objects.filter(Q(metabolomics__icontains = q))
     return render(request, 'blog/index.html',{'error_msg':error_msg,'meta_list':meta_list})
+    from django.contrib.auth.decorators import login_required
+    
+@login_required
+def dashboard(request):
+    return render(request, 'account/dashboard.html',  {'section': 'dashboard'})
+
+
+
+def login(request):
+    username = request.POST.get('username')
+    password = request.POST.get('paseword')
+    user = authenticate(request, username = username, password  = password)
+    if user is not None:
+        login(request, user)
+        return render(request, 'blog/login.html')
+    return render(request, 'blog/login.html')
+    
+def logout(request):
+    logout(request)
+    
