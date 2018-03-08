@@ -3,8 +3,9 @@
 {%block main %}
 
   {% if error_msg %}
-  <p> {{error_msg}}</p>
-  {% endif %}
+  <h1> {{error_msg}}</h1>
+  {% else %}
+  
 
 <div class="results">
     <table id="result_list" width="95%"  cellpadding="2" cellspacing="1">
@@ -16,39 +17,24 @@
        <div class="text"><span><input type="checkbox" id="action-toggle" /></span></div>
        <div class="clear"></div>
     </th>
-    <th scope="col"  class="sortable column-metabolomics">
-       
-         
-       
-       <div class="text"><a href="?o=1">Metabolomics</a></div>
-       <div class="clear"></div>
+
+    <th scope="col"  class="sortable column-metabolomics">   
+       <div class="text"><a href="?sort=1">Metabolomics</a></div>
+       </form>
     </th>
     <th scope="col"  class="sortable column-mz">
-       
-         
-       
-       <div class="text"><a href="?o=2">Mz</a></div>
-       <div class="clear"></div>
+       <div class="text"><a href="{% url 'blog:sortindexmz' %}" >Mz</a></div>
     </th>
     <th scope="col"  class="sortable column-rt">
-       
-         
-       
-       <div class="text"><a href="?o=3">Rt</a></div>
+       <div class="text"><a href="{% url 'blog:sortindexrt' %}">Rt</a></div>
        <div class="clear"></div>
     </th>
     <th scope="col"  class="sortable column-provider">
-       
-         
-       
-       <div class="text"><a href="?o=4">Provider</a></div>
+       <div class="text"><a href="?sort=provider">Provider</a></div>
        <div class="clear"></div>
     </th>
     <th scope="col"  class="sortable column-updatetime">
-       
-         
-       
-       <div class="text"><a href="?o=5">Updatetime</a></div>
+       <div class="text"><a href="?sort = time">Updatetime</a></div>
        <div class="clear"></div>
     </th>
     </tr>
@@ -70,4 +56,5 @@
     </tbody>
     </table>
     </div>
+    {% endif %}
 {% endblock main %}

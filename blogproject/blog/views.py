@@ -30,24 +30,15 @@ def search(request):
         return render(request, 'blog/index.html', {'error_msg':error_msg})
 
     meta_list = meta.objects.filter(Q(metabolomics__icontains = q))
-    return render(request, 'blog/index.html',{'error_msg':error_msg,'meta_list':meta_list})
-    from django.contrib.auth.decorators import login_required
-    
-@login_required
-def dashboard(request):
-    return render(request, 'account/dashboard.html',  {'section': 'dashboard'})
+    if not meta_list:
+        return render(request, 'blog/index.html',{'title':'my database','error_msg':'no result!','meta_list':meta_list})
+    return render(request, 'blog/index.html',{'title':'my database','error_msg':error_msg,'meta_list':meta_list})
 
+def sortindexmz(request):
+    meta_list = meta.objects.all().order_by('mz')
+    return render(request, 'blog/index.html', context = {'title':'my database','welcome':'metabolomics database', 'meta_list' : meta_list} )
 
-
-def login(request):
-    username = request.POST.get('username')
-    password = request.POST.get('paseword')
-    user = authenticate(request, username = username, password  = password)
-    if user is not None:
-        login(request, user)
-        return render(request, 'blog/login.html')
-    return render(request, 'blog/login.html')
-    
-def logout(request):
-    logout(request)
+def sortindexrt(request):
+    meta_list = meta.objects.all().order_by('rt')
+    return render(request, 'blog/index.html', context = {'title':'my database','welcome':'metabolomics database', 'meta_list' : meta_list} )
     
