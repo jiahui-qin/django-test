@@ -41,4 +41,47 @@ def sortindexmz(request):
 def sortindexrt(request):
     meta_list = meta.objects.all().order_by('rt')
     return render(request, 'blog/index.html', context = {'title':'my database','welcome':'metabolomics database', 'meta_list' : meta_list} )
+
+def my_login(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(request, username = username, password = password)
+    if user is not None:
+        login(request, user)
+        meta_list = meta.objects.all().order_by('-updatetime')
+        return render(request, 'blog/index.html', context = {'title':'my database','welcome':'metabolomics database', 'meta_list' : meta_list} )
+
+def start(request):
+    return render(request, 'blog/login.html', context = {'title':'my database','welcome':'metabolomics database'} )
+
+def login_user(request):
+
+    state = "Please log in below..."
+    username = password = ''
+
+    next = ""
+
+    if request.GET:  
+        next = request.GET['next']
+
+    if request.POST:
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                state = "You're successfully logged in!"
+                if next == "":
+                    return HttpResponseRedirect('/index/')
+                else:
+                    return HttpResponseRedirect('/index/')
+            else:
+                state = "Your account is not active, please contact the site admin."
+        else:
+            state = "Your username and/or password were incorrect."
+    return render(request, 'blog/login.html', context = {'title':'my database','welcome':'metabolomics database'} )
+
+
     
