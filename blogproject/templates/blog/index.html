@@ -11,13 +11,6 @@
     <table id="result_list" width="95%"  cellpadding="2" cellspacing="1">
     <thead>
     <tr>
-    
-    <th scope="col"  class="action-checkbox-column">
-       
-       <div class="text"><span><input type="checkbox" id="action-toggle" /></span></div>
-       <div class="clear"></div>
-    </th>
-
     <th scope="col"  class="sortable column-metabolomics">   
        <div class="text"><a href="?sort=1">Metabolomics</a></div>
        </form>
@@ -45,7 +38,12 @@
 
 
     {% for meta in meta_list %}
-    <tr class="row1"><td class="action-checkbox"><input type="checkbox" name="_selected_action" value="2" class="action-select" /></td><th class="field-metabolomics"><a href="/admin/blog/meta/2/change/">{{meta.metabolomics}}</a></th><td class="field-mz">{{meta.mz}}</td><td class="field-rt">{{meta.rt}}</td><td class="field-provider nowrap">{{meta.provider}}</td><td class="field-updatetime nowrap"><time class="entry-date" datetime="{{ meta.updatetime}}">{{ meta.updatetime}}</time></td></tr> 
+    <tr class="row1">
+      <th class="field-metabolomics"><a href="/admin/blog/meta/2/change/">{{meta.metabolomics}}</a></th>
+      <td class="field-mz">{{meta.mz}}</td><td class="field-rt">{{meta.rt}}</td>
+      <td class="field-provider nowrap">{{meta.provider}}</td>
+      <td class="field-updatetime nowrap"><time class="entry-date" datetime="{{ meta.updatetime}}">{{ meta.updatetime}}</time></td>
+    </tr> 
     {% empty %}
       <div class="row1">null</div>
     {% endfor %}

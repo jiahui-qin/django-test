@@ -1,8 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-# Create your views here.
-
+from django.http import HttpResponseRedirect  
 from django.http import HttpResponse
 from django.shortcuts import render
 from .models import meta
@@ -10,8 +9,8 @@ from django.db.models import Q
 
 @login_required(login_url='/accounts/login/')
 def index(request):
-    #return render(request, 'blog/index.html', context={'title':'my database','welcome':'metabolomics database'})
     meta_list = meta.objects.all().order_by('-updatetime')
+    #return HttpResponseRedirect(reverse(NAME_OF_PROFILE_VIEW, args=[request.user.username]))
     return render(request, 'blog/index.html', context = {'title':'my database','welcome':'metabolomics database', 'meta_list' : meta_list} )
     '''
     我们首先把 HTTP 请求传了进去，
@@ -42,28 +41,9 @@ def sortindexrt(request):
     meta_list = meta.objects.all().order_by('rt')
     return render(request, 'blog/index.html', context = {'title':'my database','welcome':'metabolomics database', 'meta_list' : meta_list} )
 
-def my_login(request):
-    username = request.POST['username']
-    password = request.POST['password']
-    user = authenticate(request, username = username, password = password)
-    if user is not None:
-        login(request, user)
-        meta_list = meta.objects.all().order_by('-updatetime')
-        return render(request, 'blog/index.html', context = {'title':'my database','welcome':'metabolomics database', 'meta_list' : meta_list} )
-
-def start(request):
-    return render(request, 'blog/login.html', context = {'title':'my database','welcome':'metabolomics database'} )
-
 def login_user(request):
-
     state = "Please log in below..."
     username = password = ''
-
-    next = ""
-
-    if request.GET:  
-        next = request.GET['next']
-
     if request.POST:
         username = request.POST['username']
         password = request.POST['password']
@@ -73,15 +53,12 @@ def login_user(request):
             if user.is_active:
                 login(request, user)
                 state = "You're successfully logged in!"
-                if next == "":
-                    return HttpResponseRedirect('/index/')
-                else:
-                    return HttpResponseRedirect('/index/')
+                return HttpResponseRedirect('/index/')
             else:
                 state = "Your account is not active, please contact the site admin."
         else:
             state = "Your username and/or password were incorrect."
-    return render(request, 'blog/login.html', context = {'title':'my database','welcome':'metabolomics database'} )
+    return render(request, 'blog/login.html', context = {'title':'my database','welcome':'metabolomics database', 'state':state} )
 
 
     

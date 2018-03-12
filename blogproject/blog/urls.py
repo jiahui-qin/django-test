@@ -4,7 +4,6 @@ from django.contrib.auth import views as auth_views
 
 app_name = 'blog'
 urlpatterns = [
-    url(r'^start/$', views.start, name = 'login'),
     url(r'^accounts/login/$', views.login_user, name = 'login_user'),
     url(r'^search/$', views.search, name='search'),
     url(r'^sortindexmz/$', views.sortindexmz, name='sortindexmz'),
