@@ -33,6 +33,25 @@ def search(request):
         return render(request, 'blog/index.html',{'title':'my database','error_msg':'no result!','meta_list':meta_list})
     return render(request, 'blog/index.html',{'title':'my database','error_msg':error_msg,'meta_list':meta_list})
 
+def highsearch(request):
+    lowmz = request.GET.get('lowmz')
+    lowrt = request.GET.get('lowrt')
+    highmz = request.GET.get('highmz')
+    highrt = request.GET.get('highrt')
+    if not lowmz:
+        lowmz = 0
+    if not highmz:
+        highmz = float('inf')
+    if not lowrt:
+        lowrt = 0
+    if not highrt:
+        highrt = float('inf')
+    error_msg = "no result!"
+    meta_list = meta.objects.filter(Q(mz__gte = lowmz) & Q(mz__lte = highmz) & Q(rt__gte = lowrt) & Q(rt__lte = highrt))
+    if not meta_list:
+        return render(request, 'blog/index.html',{'title':'my database','error_msg':error_msg,'meta_list':meta_list})
+    return render(request, 'blog/index.html',{'title':'my database','meta_list':meta_list})
+
 def sortindexmz(request):
     meta_list = meta.objects.all().order_by('mz')
     return render(request, 'blog/index.html', context = {'title':'my database','welcome':'metabolomics database', 'meta_list' : meta_list} )
@@ -60,5 +79,7 @@ def login_user(request):
             state = "Your username and/or password were incorrect."
     return render(request, 'blog/login.html', context = {'title':'my database','welcome':'metabolomics database', 'state':state} )
 
-
-    
+def logout_user(request):
+  logout(request)
+  # Redirect to a success page.
+  return HttpResponseRedirect("/accounts/login/")

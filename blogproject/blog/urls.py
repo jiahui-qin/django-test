@@ -9,5 +9,8 @@ urlpatterns = [
     url(r'^sortindexmz/$', views.sortindexmz, name='sortindexmz'),
     url(r'^sortindexrt/$', views.sortindexrt, name='sortindexrt'),
     url(r'^index/$', views.index, name='index'),
+    url(r'^highsearch/$', views.highsearch, name='highsearch'),
+    url(r'^accounts/logout/$', views.logout_user, name = 'logout_user'),
+
 
 ]
