@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from .models import meta
 from django.db.models import Q
+from django.utils import timezone
 
 @login_required(login_url='/accounts/login/')
 def index(request):
@@ -83,3 +84,21 @@ def logout_user(request):
   logout(request)
   # Redirect to a success page.
   return HttpResponseRedirect("/accounts/login/")
+
+
+def managedata(request):
+    render(request, 'blog/managedata.html', context =  {'title':'my database','welcome':'metabolomics database', 'state':'插入成功'})
+
+def ppp(request):
+    state = '插入错误'
+    metabolomics = request.GET.get('metabolomics')
+    rt = request.GET.get('rt')
+    mz = request.GET.get('mz')
+    try:
+        cur = meta(metabolomics = 'metabolomics', rt = 'rt', mz = 'mz',  updatetime = timezone.now())
+        cur.save
+        return render(request,'blog/managedata.html', context =  {'title':'my database','welcome':'metabolomics database', 'state':'插入成功'})
+    except:
+        return render(request,'blog/managedata.html', context =  {'title':'my database','welcome':'metabolomics database', 'state':state})
+
+

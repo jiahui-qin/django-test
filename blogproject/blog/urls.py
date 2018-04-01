@@ -11,6 +11,6 @@ urlpatterns = [
     url(r'^index/$', views.index, name='index'),
     url(r'^highsearch/$', views.highsearch, name='highsearch'),
     url(r'^accounts/logout/$', views.logout_user, name = 'logout_user'),
-
+    url(r'^managedata/$', views.managedata, name = 'managedata'),
 
 ]
